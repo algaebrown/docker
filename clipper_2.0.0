@@ -1,0 +1,30 @@
+################## BASE IMAGE ######################
+
+FROM continuumio/miniconda:latest
+
+################## METADATA ######################
+
+LABEL base_image="continuumio/miniconda:latest"
+LABEL version="1"
+LABEL software="CLIPper"
+LABEL software.version="2.0.0"
+LABEL about.summary="A tool to detect CLIP-seq peaks."
+LABEL about.home="https://github.com/YeoLab/clipper/"
+LABEL about.documentation="https://github.com/YeoLab/clipper/wiki/CLIPper-Home"
+LABEL about.license_file=""
+LABEL about.license=""
+LABEL about.tags="Genomics"
+
+################## MAINTAINER ######################
+MAINTAINER Brian Yee <brian.alan.yee@gmail.com>
+
+RUN apt-get update
+RUN apt-get upgrade --yes
+
+RUN apt-get install -y g++
+
+RUN git clone git://github.com/YeoLab/clipper.git && \
+    cd clipper && \
+    conda env create -f environment3.yml && \
+    conda activate clipper3 && \
+    pip install .
